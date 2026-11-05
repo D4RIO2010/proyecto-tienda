@@ -3,6 +3,8 @@ import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import CartDrawer from "@/components/cart/CartDrawer";
+import MobileCartPill from "@/components/cart/MobileCartPill";
+import FloatingWhatsApp from "@/components/ui/FloatingWhatsApp";
 import { supabase } from "@/lib/supabase/client";
 
 const inter = Inter({
@@ -20,7 +22,12 @@ const montserrat = Montserrat({
 
 export const metadata = {
   title: "NexaStore | Catálogo Digital & Pedidos Directos",
-  description: "Escaparate virtual de repuestos y productos con pedidos directos a WhatsApp.",
+  description: "Escaparate virtual interactivo de repuestos y productos con pedidos directos a WhatsApp.",
+  icons: {
+    icon: "/logo.png",
+    shortcut: "/logo.png",
+    apple: "/logo.png",
+  },
 };
 
 const defaultConfig = {
@@ -59,6 +66,8 @@ export default async function RootLayout({ children }) {
         <Navbar storeConfig={storeConfig} />
         <main className="flex-1">{children}</main>
         <CartDrawer storeConfig={storeConfig} />
+        <MobileCartPill storeConfig={storeConfig} />
+        <FloatingWhatsApp storeConfig={storeConfig} />
         <Footer storeConfig={storeConfig} />
       </body>
     </html>

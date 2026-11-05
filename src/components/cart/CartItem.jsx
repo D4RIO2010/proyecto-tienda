@@ -16,7 +16,7 @@ export default function CartItem({ item }) {
   return (
     <div className="flex gap-3 py-3 border-b border-slate-100 last:border-b-0 items-center">
       {/* Miniatura */}
-      <div className="relative w-16 h-16 rounded-xl overflow-hidden bg-slate-100 shrink-0 border border-slate-200/60">
+      <div className="relative w-16 h-16 rounded-md overflow-hidden bg-slate-100 shrink-0 border border-slate-200">
         <Image
           src={item.imagen_url || defaultImg}
           alt={item.nombre}
@@ -26,41 +26,47 @@ export default function CartItem({ item }) {
         />
       </div>
 
-      {/* Detalles */}
+      {/* Detalles con alto contraste */}
       <div className="flex-1 min-w-0">
-        <h4 className="text-sm font-semibold text-slate-800 line-clamp-1">
+        <h4
+          style={{ fontFamily: 'var(--font-montserrat), sans-serif' }}
+          className="text-xs sm:text-sm font-bold text-[#0F172A] line-clamp-1"
+        >
           {item.nombre}
         </h4>
-        <div className="text-xs text-slate-500 font-mono mt-0.5">
+        <div className="text-xs text-slate-600 font-semibold font-mono mt-0.5">
           {formatUSD(item.precio)} c/u
         </div>
 
         {/* Controles de cantidad y precio total de la fila */}
         <div className="flex items-center justify-between mt-2">
-          <div className="flex items-center border border-slate-200 rounded-lg bg-white overflow-hidden shadow-2xs">
+          <div className="flex items-center border border-slate-300 rounded-md bg-white overflow-hidden shadow-2xs">
             <button
               type="button"
               onClick={() => updateQuantity(item.id, -1)}
-              className="p-1 hover:bg-slate-100 text-slate-600 transition-colors"
+              className="p-1 hover:bg-slate-100 text-slate-700 transition-colors"
               aria-label="Disminuir cantidad"
             >
               <Minus className="w-3.5 h-3.5" />
             </button>
-            <span className="px-2 text-xs font-semibold text-slate-800 min-w-[24px] text-center">
+            <span className="px-2.5 text-xs font-black text-[#0F172A] min-w-[24px] text-center">
               {item.cantidad}
             </span>
             <button
               type="button"
               disabled={item.cantidad >= (item.stock ?? 999)}
               onClick={() => updateQuantity(item.id, 1)}
-              className="p-1 hover:bg-slate-100 text-slate-600 disabled:opacity-30 disabled:hover:bg-transparent transition-colors"
+              className="p-1 hover:bg-slate-100 text-slate-700 disabled:opacity-30 disabled:hover:bg-transparent transition-colors"
               aria-label="Aumentar cantidad"
             >
               <Plus className="w-3.5 h-3.5" />
             </button>
           </div>
 
-          <div className="text-sm font-bold text-slate-900">
+          <div
+            style={{ fontFamily: 'var(--font-montserrat), sans-serif' }}
+            className="text-sm font-black text-[#0F172A]"
+          >
             {formatUSD(subtotal)}
           </div>
         </div>
@@ -70,7 +76,7 @@ export default function CartItem({ item }) {
       <button
         type="button"
         onClick={() => removeItem(item.id)}
-        className="p-1.5 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-colors ml-1 self-start"
+        className="p-1.5 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-md transition-colors ml-1 self-start"
         title="Eliminar del carrito"
       >
         <Trash2 className="w-4 h-4" />

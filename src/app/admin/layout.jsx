@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import { supabase } from '@/lib/supabase/client';
 import Link from 'next/link';
+import Image from 'next/image';
 import {
   LayoutDashboard,
   Package,
@@ -95,9 +96,9 @@ export default function AdminLayout({ children }) {
     <div className="min-h-screen bg-[#F8FAFC] flex flex-col md:flex-row">
       {/* Sidebar Desktop en Neutral Dark */}
       <aside className="hidden md:flex md:w-64 flex-col bg-[#0F172A] text-slate-200 border-r border-[#1E293B] shrink-0">
-        <div className="p-6 border-b border-[#1E293B] flex items-center gap-2.5">
-          <div className="p-2 bg-[#059669] text-white rounded-md font-bold">
-            <ShieldCheck className="w-5 h-5" />
+        <div className="p-6 border-b border-[#1E293B] flex items-center gap-3">
+          <div className="relative w-10 h-10 rounded-md overflow-hidden border border-emerald-500/40 bg-[#0F172A] shrink-0">
+            <Image src="/logo.png" alt="NexaStore" fill sizes="40px" className="object-contain p-0.5" />
           </div>
           <div>
             <span
@@ -156,7 +157,9 @@ export default function AdminLayout({ children }) {
       {/* Barra móvil */}
       <div className="md:hidden bg-[#0F172A] text-white px-4 py-3 flex items-center justify-between border-b border-[#1E293B] sticky top-0 z-30">
         <div className="flex items-center gap-2">
-          <ShieldCheck className="w-5 h-5 text-[#059669]" />
+          <div className="relative w-7 h-7 rounded-md overflow-hidden border border-emerald-500/40 bg-[#0F172A] shrink-0">
+            <Image src="/logo.png" alt="NexaStore" fill sizes="28px" className="object-contain" />
+          </div>
           <span
             style={{ fontFamily: 'var(--font-montserrat), sans-serif' }}
             className="font-bold text-sm tracking-wider uppercase"

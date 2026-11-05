@@ -28,105 +28,108 @@ export default function ProductCard({ product, storeConfig }) {
   const displayImage = imgError || !product.imagen_url ? defaultPlaceholder : product.imagen_url;
 
   return (
-    <article className="group relative flex flex-col bg-white rounded-lg border border-slate-200 overflow-hidden hover:shadow-md transition-shadow duration-200">
+    <article className="group relative flex flex-col bg-white rounded-xl border border-slate-200/90 overflow-hidden shadow-xs hover:shadow-xl hover:-translate-y-1 hover:border-emerald-400/60 transition-all duration-200">
       {/* Etiqueta de Destacado */}
       {product.destacado && (
-        <div className="absolute top-2.5 left-2.5 z-10 flex items-center gap-1 px-2.5 py-0.5 rounded-md text-[11px] font-bold bg-[#059669] text-white shadow-xs">
-          <Sparkles className="w-3 h-3" />
+        <div className="absolute top-3 left-3 z-10 flex items-center gap-1.5 px-3 py-1 rounded-md text-[11px] font-black bg-[#059669] text-white shadow-md uppercase tracking-wider">
+          <Sparkles className="w-3.5 h-3.5" />
           <span>Destacado</span>
         </div>
       )}
 
-      {/* Contenedor de Imagen */}
+      {/* Contenedor de Imagen con Efecto Hover */}
       <div className="relative aspect-square w-full bg-slate-50 overflow-hidden border-b border-slate-100">
         <Image
           src={displayImage}
           alt={product.nombre}
           fill
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-          className="object-cover group-hover:scale-102 transition-transform duration-300 ease-out"
+          className="object-cover group-hover:scale-106 transition-transform duration-300 ease-out"
           onError={() => setImgError(true)}
           priority={false}
         />
 
-        {/* Badge de Stock */}
-        <div className="absolute bottom-2 right-2">
+        {/* Badge de Stock con alto contraste */}
+        <div className="absolute bottom-2.5 right-2.5 z-10">
           {isOutOfStock ? (
-            <span className="px-2 py-0.5 text-[10px] font-bold rounded-md bg-rose-50 text-rose-700 border border-rose-200">
+            <span className="px-2.5 py-1 text-[11px] font-black rounded-md bg-rose-100 text-rose-900 border border-rose-300 shadow-xs">
               Agotado
             </span>
           ) : (
-            <span className="px-2 py-0.5 text-[10px] font-semibold rounded-md bg-emerald-50 text-[#059669] border border-emerald-200">
+            <span className="px-2.5 py-1 text-[11px] font-bold rounded-md bg-white/95 backdrop-blur-xs text-[#047857] border border-emerald-300 shadow-xs">
               {product.stock} disponibles
             </span>
           )}
         </div>
       </div>
 
-      {/* Contenido / Información */}
-      <div className="flex flex-col flex-1 p-4">
+      {/* Información del Producto con Textos Ultra-Nítidos */}
+      <div className="flex flex-col flex-1 p-4 sm:p-5">
         {/* Categoría y SKU */}
-        <div className="flex items-center justify-between text-xs text-slate-500 mb-1">
-          <span className="font-semibold text-[#059669] uppercase tracking-wider text-[11px] truncate max-w-[150px]">
+        <div className="flex items-center justify-between text-xs mb-1.5">
+          <span className="font-extrabold text-[#047857] uppercase tracking-wider text-[11px] truncate max-w-[160px]">
             {product.categorias?.nombre || 'General'}
           </span>
           {product.sku && (
-            <span className="text-[10px] font-mono text-slate-400">
-              SKU: {product.sku}
+            <span className="text-[11px] font-mono font-bold text-slate-500 bg-slate-100 px-1.5 py-0.5 rounded">
+              #{product.sku}
             </span>
           )}
         </div>
 
-        {/* Título en Montserrat */}
+        {/* Título en Montserrat Bold */}
         <h3
           style={{ fontFamily: 'var(--font-montserrat), sans-serif' }}
-          className="font-bold text-[#0F172A] text-sm sm:text-base line-clamp-2 leading-snug group-hover:text-[#059669] transition-colors"
+          className="font-black text-[#0F172A] text-base leading-snug line-clamp-2 group-hover:text-[#059669] transition-colors"
         >
           {product.nombre}
         </h3>
 
-        {/* Descripción en Inter (#334155) */}
+        {/* Descripción con texto legible */}
         {product.descripcion && (
-          <p className="mt-1 text-xs text-[#334155] line-clamp-2 leading-relaxed">
+          <p className="mt-1.5 text-xs text-[#334155] line-clamp-2 leading-relaxed">
             {product.descripcion}
           </p>
         )}
 
-        {/* Footer de la tarjeta con Precios y Botón Flat rounded-md */}
-        <div className="mt-auto pt-4">
+        {/* Footer de Tarjeta: Precios y Botón */}
+        <div className="mt-auto pt-4 border-t border-slate-100">
           <div className="flex items-end justify-between gap-2">
             <div>
               <div
                 style={{ fontFamily: 'var(--font-montserrat), sans-serif' }}
-                className="text-lg sm:text-xl font-extrabold text-[#0F172A] tracking-tight"
+                className="text-xl sm:text-2xl font-black text-[#0F172A] tracking-tight leading-none"
               >
                 {formatUSD(product.precio)}
               </div>
               {showSecondary && (
-                <div className="text-[11px] font-semibold text-slate-500 mt-0.5">
-                  ≈ {formatSecondaryCurrency(product.precio, tasa, secondarySymbol)}
+                <div className="text-xs font-bold text-[#059669] mt-1 flex items-center gap-1">
+                  <span>≈ {formatSecondaryCurrency(product.precio, tasa, secondarySymbol)}</span>
                 </div>
               )}
             </div>
 
-            {/* Botón Flat con Verde Nexa y rounded-md */}
+            {/* Botón Flat con Verde Nexa y micro-animación */}
             <button
               type="button"
               onClick={handleAddToCart}
               disabled={isOutOfStock}
               aria-label={`Añadir ${product.nombre} al carrito`}
-              className={`relative inline-flex items-center justify-center p-2.5 rounded-md font-medium transition-all duration-150 cursor-pointer ${
+              className={`relative inline-flex items-center justify-center p-3 rounded-md font-bold transition-all duration-150 cursor-pointer shadow-xs ${
                 isOutOfStock
-                  ? 'bg-slate-100 text-slate-400 cursor-not-allowed'
+                  ? 'bg-slate-200 text-slate-400 cursor-not-allowed'
                   : isAdded
-                  ? 'bg-emerald-700 text-white shadow-xs'
-                  : 'bg-[#059669] hover:bg-[#047857] text-white shadow-xs active:scale-95'
+                  ? 'bg-emerald-700 text-white scale-95 shadow-inner'
+                  : 'bg-[#059669] hover:bg-[#047857] text-white hover:shadow-md hover:scale-105 active:scale-95'
               }`}
             >
               {isAdded ? (
-                <Check className="w-4 h-4 animate-in zoom-in-75" />
+                <div className="flex items-center gap-1 text-xs">
+                  <Check className="w-4 h-4 animate-in zoom-in-75" />
+                  <span className="hidden sm:inline">Listo</span>
+                </div>
               ) : (
-                <ShoppingCart className="w-4 h-4" />
+                <ShoppingCart className="w-5 h-5 text-white" />
               )}
             </button>
           </div>
