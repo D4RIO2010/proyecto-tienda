@@ -17,7 +17,6 @@ export default function CartDrawer({ storeConfig }) {
   const [errorValidacion, setErrorValidacion] = useState('');
   const [mounted, setMounted] = useState(false);
 
-  // Evitar hydration mismatch en persist
   useEffect(() => {
     setMounted(true);
   }, []);
@@ -35,7 +34,6 @@ export default function CartDrawer({ storeConfig }) {
     }
   }, [metodosDisponibles, metodoPago]);
 
-  // Bloquear scroll de la página cuando el drawer esté abierto
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden';
@@ -70,7 +68,6 @@ export default function CartDrawer({ storeConfig }) {
       return;
     }
 
-    // Ejecuta la redirección a WhatsApp con formato ordenado
     sendWhatsAppOrder({
       items,
       clienteNombre: clienteNombre.trim(),
@@ -80,30 +77,35 @@ export default function CartDrawer({ storeConfig }) {
       tasa,
       monedaSecundaria: secondarySymbol,
       telefonoWhatsApp: storeConfig?.telefono_whatsapp || '584120000000',
-      nombreTienda: storeConfig?.nombre_tienda || 'Catálogo Digital',
+      nombreTienda: storeConfig?.nombre_tienda || 'NexaStore',
     });
   };
 
   return (
     <div className="fixed inset-0 z-50 overflow-hidden">
-      {/* Backdrop oscuro con blur */}
+      {/* Backdrop */}
       <div
         onClick={closeCart}
-        className="absolute inset-0 bg-slate-900/50 backdrop-blur-xs transition-opacity duration-300"
+        className="absolute inset-0 bg-[#0F172A]/60 backdrop-blur-xs transition-opacity duration-300"
       />
 
       <div className="fixed inset-y-0 right-0 max-w-full flex pl-10">
         <aside className="w-screen max-w-md bg-white shadow-2xl flex flex-col transform transition-transform duration-300 ease-in-out">
-          {/* Header del Carrito */}
-          <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100 bg-slate-50/70">
+          {/* Header del Carrito en Neutral Dark */}
+          <div className="flex items-center justify-between px-6 py-4 bg-[#0F172A] text-white border-b border-[#1E293B]">
             <div className="flex items-center gap-2.5">
-              <div className="p-2 bg-emerald-100 text-emerald-800 rounded-lg">
+              <div className="p-2 bg-[#059669] text-white rounded-md">
                 <ShoppingBag className="w-5 h-5" />
               </div>
               <div>
-                <h2 className="text-base font-bold text-slate-900">Tu Carrito</h2>
-                <p className="text-xs text-slate-500">
-                  {totalItems} {totalItems === 1 ? 'producto' : 'productos'} añadidos
+                <h2
+                  style={{ fontFamily: 'var(--font-montserrat), sans-serif' }}
+                  className="text-base font-bold text-white tracking-wide"
+                >
+                  Tu Carrito
+                </h2>
+                <p className="text-xs text-slate-300">
+                  {totalItems} {totalItems === 1 ? 'producto' : 'productos'} en la orden
                 </p>
               </div>
             </div>
@@ -113,7 +115,7 @@ export default function CartDrawer({ storeConfig }) {
                 <button
                   type="button"
                   onClick={clearCart}
-                  className="p-2 text-xs font-medium text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-colors"
+                  className="p-2 text-xs font-medium text-slate-400 hover:text-rose-400 hover:bg-[#1E293B] rounded-md transition-colors"
                   title="Vaciar carrito"
                 >
                   <Trash2 className="w-4 h-4" />
@@ -122,63 +124,76 @@ export default function CartDrawer({ storeConfig }) {
               <button
                 type="button"
                 onClick={closeCart}
-                className="p-2 text-slate-400 hover:text-slate-700 hover:bg-slate-200/60 rounded-lg transition-colors"
+                className="p-2 text-slate-400 hover:text-white hover:bg-[#1E293B] rounded-md transition-colors"
               >
                 <X className="w-5 h-5" />
               </button>
             </div>
           </div>
 
-          {/* Cuerpo: Lista de Productos o Estado Vacío */}
+          {/* Cuerpo: Lista o Estado Vacío */}
           {items.length === 0 ? (
-            <div className="flex-1 flex flex-col items-center justify-center p-8 text-center">
-              <div className="w-20 h-20 rounded-full bg-slate-100 flex items-center justify-center text-slate-400 mb-4">
+            <div className="flex-1 flex flex-col items-center justify-center p-8 text-center bg-[#F8FAFC]">
+              <div className="w-20 h-20 rounded-md bg-white border border-slate-200 flex items-center justify-center text-slate-400 mb-4 shadow-2xs">
                 <ShoppingBag className="w-10 h-10 stroke-[1.5]" />
               </div>
-              <h3 className="text-lg font-bold text-slate-800 mb-1">Tu carrito está vacío</h3>
-              <p className="text-sm text-slate-500 max-w-xs mb-6">
-                Explora el catálogo y añade los repuestos o artículos que necesites.
+              <h3
+                style={{ fontFamily: 'var(--font-montserrat), sans-serif' }}
+                className="text-base font-bold text-[#0F172A] mb-1"
+              >
+                Tu carrito está vacío
+              </h3>
+              <p className="text-xs text-[#334155] max-w-xs mb-6">
+                Explora el catálogo de NexaStore y añade los artículos que necesites.
               </p>
               <button
                 type="button"
                 onClick={closeCart}
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-slate-900 text-white font-medium text-sm hover:bg-emerald-600 transition-colors shadow-xs"
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-md bg-[#059669] text-white font-semibold text-xs hover:bg-[#047857] transition-colors shadow-xs"
               >
-                <span>Ver catálogo</span>
+                <span>Explorar Catálogo</span>
                 <ArrowRight className="w-4 h-4" />
               </button>
             </div>
           ) : (
-            <div className="flex-1 overflow-y-auto px-6 py-4 space-y-1 divide-y divide-slate-100">
+            <div className="flex-1 overflow-y-auto px-6 py-4 space-y-1 divide-y divide-slate-100 bg-white">
               {items.map((item) => (
                 <CartItem key={item.id} item={item} />
               ))}
             </div>
           )}
 
-          {/* Footer de Checkout (Solo si hay items) */}
+          {/* Footer de Checkout */}
           {items.length > 0 && (
-            <div className="border-t border-slate-100 bg-slate-50/70 p-6 space-y-4">
+            <div className="border-t border-slate-200 bg-[#F8FAFC] p-6 space-y-4">
               {/* Resumen de totales */}
-              <div className="space-y-1.5 bg-white p-3.5 rounded-xl border border-slate-200/70 shadow-2xs">
-                <div className="flex items-center justify-between text-slate-600 text-xs">
+              <div className="space-y-1.5 bg-white p-3.5 rounded-md border border-slate-200 shadow-2xs">
+                <div className="flex items-center justify-between text-xs text-[#334155]">
                   <span>Subtotal en Divisas:</span>
-                  <span className="font-semibold text-slate-900">{formatUSD(totalUSD)}</span>
+                  <span className="font-semibold text-[#0F172A]">{formatUSD(totalUSD)}</span>
                 </div>
                 {showSecondary && (
-                  <div className="flex items-center justify-between text-slate-600 text-xs">
+                  <div className="flex items-center justify-between text-xs text-[#334155]">
                     <span>Tasa de cambio ref.:</span>
-                    <span className="font-mono text-slate-700">{secondarySymbol} {tasa}</span>
+                    <span className="font-mono text-slate-600">{secondarySymbol} {tasa}</span>
                   </div>
                 )}
                 <div className="pt-2 border-t border-slate-100 flex items-baseline justify-between">
-                  <span className="text-sm font-bold text-slate-900">Total a pagar:</span>
+                  <span
+                    style={{ fontFamily: 'var(--font-montserrat), sans-serif' }}
+                    className="text-xs font-bold text-[#0F172A] uppercase tracking-wider"
+                  >
+                    Total a pagar:
+                  </span>
                   <div className="text-right">
-                    <span className="text-xl font-black text-slate-900">
+                    <span
+                      style={{ fontFamily: 'var(--font-montserrat), sans-serif' }}
+                      className="text-xl font-extrabold text-[#0F172A]"
+                    >
                       {formatUSD(totalUSD)}
                     </span>
                     {showSecondary && (
-                      <p className="text-xs font-semibold text-emerald-700">
+                      <p className="text-xs font-bold text-[#059669]">
                         ≈ {formatSecondaryCurrency(totalUSD, tasa, secondarySymbol)}
                       </p>
                     )}
@@ -186,17 +201,17 @@ export default function CartDrawer({ storeConfig }) {
                 </div>
               </div>
 
-              {/* Formulario rápido para el pedido por WhatsApp */}
+              {/* Formulario */}
               <form onSubmit={handleCheckout} className="space-y-3">
                 {errorValidacion && (
-                  <div className="flex items-center gap-2 p-2.5 rounded-lg bg-rose-50 border border-rose-200 text-rose-700 text-xs">
+                  <div className="flex items-center gap-2 p-2.5 rounded-md bg-rose-50 border border-rose-200 text-rose-700 text-xs">
                     <AlertCircle className="w-4 h-4 shrink-0" />
                     <span>{errorValidacion}</span>
                   </div>
                 )}
 
                 <div>
-                  <label className="block text-xs font-semibold text-slate-700 mb-1">
+                  <label className="block text-xs font-semibold text-[#0F172A] mb-1">
                     Tu Nombre Completo *
                   </label>
                   <input
@@ -205,19 +220,19 @@ export default function CartDrawer({ storeConfig }) {
                     value={clienteNombre}
                     onChange={(e) => setClienteNombre(e.target.value)}
                     placeholder="Ej. Juan Pérez"
-                    className="w-full px-3.5 py-2 text-sm rounded-lg border border-slate-200 bg-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600"
+                    className="w-full px-3 py-2 text-xs rounded-md border border-slate-200 bg-white placeholder-slate-400 text-[#0F172A] focus:outline-none focus:ring-2 focus:ring-[#059669]/20 focus:border-[#059669]"
                   />
                 </div>
 
                 <div className="grid grid-cols-2 gap-2">
                   <div>
-                    <label className="block text-xs font-semibold text-slate-700 mb-1">
+                    <label className="block text-xs font-semibold text-[#0F172A] mb-1">
                       Método de pago
                     </label>
                     <select
                       value={metodoPago}
                       onChange={(e) => setMetodoPago(e.target.value)}
-                      className="w-full px-2.5 py-2 text-xs rounded-lg border border-slate-200 bg-white text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600"
+                      className="w-full px-2.5 py-2 text-xs rounded-md border border-slate-200 bg-white text-[#334155] focus:outline-none focus:ring-2 focus:ring-[#059669]/20 focus:border-[#059669]"
                     >
                       {metodosDisponibles.map((metodo) => (
                         <option key={metodo} value={metodo}>
@@ -228,26 +243,26 @@ export default function CartDrawer({ storeConfig }) {
                   </div>
 
                   <div>
-                    <label className="block text-xs font-semibold text-slate-700 mb-1">
+                    <label className="block text-xs font-semibold text-[#0F172A] mb-1">
                       Entrega / Retiro
                     </label>
                     <input
                       type="text"
                       value={notaEntrega}
                       onChange={(e) => setNotaEntrega(e.target.value)}
-                      placeholder="Retiro en tienda / Envío"
-                      className="w-full px-2.5 py-2 text-xs rounded-lg border border-slate-200 bg-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600"
+                      placeholder="Retiro / Envío"
+                      className="w-full px-2.5 py-2 text-xs rounded-md border border-slate-200 bg-white placeholder-slate-400 text-[#0F172A] focus:outline-none focus:ring-2 focus:ring-[#059669]/20 focus:border-[#059669]"
                     />
                   </div>
                 </div>
 
-                {/* Botón WhatsApp Checkout */}
+                {/* Botón WhatsApp Checkout Flat con Verde Nexa y rounded-md */}
                 <button
                   type="submit"
-                  className="w-full py-3.5 px-4 rounded-xl font-bold text-white bg-emerald-600 hover:bg-emerald-700 active:scale-[0.99] transition-all duration-150 shadow-md shadow-emerald-600/20 flex items-center justify-center gap-2.5 cursor-pointer text-sm"
+                  className="w-full py-3.5 px-4 rounded-md font-bold text-white bg-[#059669] hover:bg-[#047857] active:scale-[0.99] transition-all duration-150 shadow-sm flex items-center justify-center gap-2 cursor-pointer text-xs uppercase tracking-wider"
                 >
-                  <MessageCircle className="w-5 h-5 fill-current" />
-                  <span>Enviar Pedido a WhatsApp</span>
+                  <MessageCircle className="w-4 h-4 fill-current" />
+                  <span>Confirmar y Enviar a WhatsApp</span>
                 </button>
               </form>
             </div>

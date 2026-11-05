@@ -66,17 +66,16 @@ export default function AdminLayout({ children }) {
     router.replace('/admin/login');
   };
 
-  // En la página de login no mostramos el layout administrativo
   if (isLoginPage) {
     return <>{children}</>;
   }
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-slate-100 flex items-center justify-center p-4">
+      <div className="min-h-screen bg-[#F8FAFC] flex items-center justify-center p-4">
         <div className="flex flex-col items-center gap-3">
-          <div className="w-8 h-8 border-3 border-emerald-600 border-t-transparent rounded-full animate-spin" />
-          <p className="text-xs font-semibold text-slate-500">Cargando panel seguro...</p>
+          <div className="w-8 h-8 border-3 border-[#059669] border-t-transparent rounded-full animate-spin" />
+          <p className="text-xs font-semibold text-[#334155]">Cargando panel seguro NexaStore...</p>
         </div>
       </div>
     );
@@ -93,16 +92,21 @@ export default function AdminLayout({ children }) {
   ];
 
   return (
-    <div className="min-h-screen bg-slate-100 flex flex-col md:flex-row">
-      {/* Sidebar Desktop */}
-      <aside className="hidden md:flex md:w-64 flex-col bg-slate-900 text-slate-200 border-r border-slate-800 shrink-0">
-        <div className="p-6 border-b border-slate-800 flex items-center gap-2.5">
-          <div className="p-2 bg-emerald-500 text-slate-950 rounded-xl font-bold">
+    <div className="min-h-screen bg-[#F8FAFC] flex flex-col md:flex-row">
+      {/* Sidebar Desktop en Neutral Dark */}
+      <aside className="hidden md:flex md:w-64 flex-col bg-[#0F172A] text-slate-200 border-r border-[#1E293B] shrink-0">
+        <div className="p-6 border-b border-[#1E293B] flex items-center gap-2.5">
+          <div className="p-2 bg-[#059669] text-white rounded-md font-bold">
             <ShieldCheck className="w-5 h-5" />
           </div>
           <div>
-            <span className="font-bold text-sm text-white block">Panel de Control</span>
-            <span className="text-[11px] text-slate-400 block font-mono truncate max-w-[140px]">
+            <span
+              style={{ fontFamily: 'var(--font-montserrat), sans-serif' }}
+              className="font-extrabold text-sm text-white tracking-wider block uppercase"
+            >
+              NexaStore
+            </span>
+            <span className="text-[10px] text-slate-400 block font-mono truncate max-w-[140px]">
               {session.user.email}
             </span>
           </div>
@@ -116,10 +120,10 @@ export default function AdminLayout({ children }) {
               <Link
                 key={item.href}
                 href={item.href}
-                className={`flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold transition-colors ${
+                className={`flex items-center gap-3 px-3.5 py-2.5 rounded-md text-xs font-semibold transition-colors ${
                   isActive
-                    ? 'bg-emerald-600 text-white shadow-xs'
-                    : 'text-slate-400 hover:text-white hover:bg-slate-800/80'
+                    ? 'bg-[#059669] text-white shadow-xs'
+                    : 'text-slate-400 hover:text-white hover:bg-[#1E293B]'
                 }`}
               >
                 <Icon className="w-4 h-4" />
@@ -129,19 +133,19 @@ export default function AdminLayout({ children }) {
           })}
         </nav>
 
-        <div className="p-4 border-t border-slate-800 space-y-2">
+        <div className="p-4 border-t border-[#1E293B] space-y-2">
           <Link
             href="/"
             target="_blank"
-            className="flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-medium text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
+            className="flex items-center gap-2 px-3.5 py-2 rounded-md text-xs font-medium text-slate-400 hover:text-white hover:bg-[#1E293B] transition-colors"
           >
             <ExternalLink className="w-4 h-4" />
-            <span>Ver Tienda Pública</span>
+            <span>Ver Tienda NexaStore</span>
           </Link>
           <button
             type="button"
             onClick={handleSignOut}
-            className="w-full flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-medium text-rose-400 hover:text-rose-200 hover:bg-rose-950/40 transition-colors cursor-pointer"
+            className="w-full flex items-center gap-2 px-3.5 py-2 rounded-md text-xs font-medium text-rose-400 hover:text-rose-200 hover:bg-rose-950/40 transition-colors cursor-pointer"
           >
             <LogOut className="w-4 h-4" />
             <span>Cerrar Sesión</span>
@@ -150,10 +154,15 @@ export default function AdminLayout({ children }) {
       </aside>
 
       {/* Barra móvil */}
-      <div className="md:hidden bg-slate-900 text-white px-4 py-3 flex items-center justify-between border-b border-slate-800 sticky top-0 z-30">
+      <div className="md:hidden bg-[#0F172A] text-white px-4 py-3 flex items-center justify-between border-b border-[#1E293B] sticky top-0 z-30">
         <div className="flex items-center gap-2">
-          <ShieldCheck className="w-5 h-5 text-emerald-400" />
-          <span className="font-bold text-sm">Admin Tienda</span>
+          <ShieldCheck className="w-5 h-5 text-[#059669]" />
+          <span
+            style={{ fontFamily: 'var(--font-montserrat), sans-serif' }}
+            className="font-bold text-sm tracking-wider uppercase"
+          >
+            NexaStore Admin
+          </span>
         </div>
         <button
           type="button"
@@ -166,7 +175,7 @@ export default function AdminLayout({ children }) {
 
       {/* Menú desplegable móvil */}
       {mobileMenuOpen && (
-        <div className="md:hidden bg-slate-900 border-b border-slate-800 p-4 space-y-2">
+        <div className="md:hidden bg-[#0F172A] border-b border-[#1E293B] p-4 space-y-2">
           {navItems.map((item) => {
             const Icon = item.icon;
             const isActive = pathname === item.href;
@@ -175,8 +184,8 @@ export default function AdminLayout({ children }) {
                 key={item.href}
                 href={item.href}
                 onClick={() => setMobileMenuOpen(false)}
-                className={`flex items-center gap-3 px-3.5 py-2 rounded-lg text-xs font-semibold ${
-                  isActive ? 'bg-emerald-600 text-white' : 'text-slate-400 hover:text-white'
+                className={`flex items-center gap-3 px-3.5 py-2 rounded-md text-xs font-semibold ${
+                  isActive ? 'bg-[#059669] text-white' : 'text-slate-400 hover:text-white'
                 }`}
               >
                 <Icon className="w-4 h-4" />
@@ -184,7 +193,7 @@ export default function AdminLayout({ children }) {
               </Link>
             );
           })}
-          <div className="pt-2 border-t border-slate-800 flex items-center justify-between">
+          <div className="pt-2 border-t border-[#1E293B] flex items-center justify-between">
             <Link
               href="/"
               target="_blank"

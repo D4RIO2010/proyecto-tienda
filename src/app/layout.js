@@ -1,27 +1,30 @@
-import { Geist, Geist_Mono } from "next/font/google";
+import { Inter, Montserrat } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import CartDrawer from "@/components/cart/CartDrawer";
 import { supabase } from "@/lib/supabase/client";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
+  display: "swap",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const montserrat = Montserrat({
+  variable: "--font-montserrat",
   subsets: ["latin"],
+  weight: ["500", "600", "700", "800", "900"],
+  display: "swap",
 });
 
 export const metadata = {
-  title: "Catálogo Digital Interactivo | Retail Express",
-  description: "Catálogo virtual de repuestos y productos con pedidos directos a WhatsApp.",
+  title: "NexaStore | Catálogo Digital & Pedidos Directos",
+  description: "Escaparate virtual de repuestos y productos con pedidos directos a WhatsApp.",
 };
 
 const defaultConfig = {
-  nombre_tienda: 'AutoPartes & Retail Pro',
+  nombre_tienda: 'NexaStore',
   telefono_whatsapp: '584120000000',
   metodos_pago: ['Pago Móvil', 'Zelle', 'Efectivo Divisas ($)', 'Transferencia Bancaria'],
   tasa_cambio: 36.50,
@@ -50,9 +53,9 @@ export default async function RootLayout({ children }) {
   return (
     <html
       lang="es"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${inter.variable} ${montserrat.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-slate-50 text-slate-900 selection:bg-emerald-500 selection:text-white">
+      <body className="min-h-full flex flex-col bg-[#F8FAFC] text-[#334155] selection:bg-[#059669] selection:text-white">
         <Navbar storeConfig={storeConfig} />
         <main className="flex-1">{children}</main>
         <CartDrawer storeConfig={storeConfig} />
